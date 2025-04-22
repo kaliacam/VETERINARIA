@@ -94,7 +94,7 @@ namespace VETERINARIA
 
         private void BtnSalirPrograma_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
     }
 }
