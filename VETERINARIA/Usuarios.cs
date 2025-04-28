@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VETERINARIA
@@ -18,30 +11,80 @@ namespace VETERINARIA
             InitializeComponent();
         }
 
-
         private void btnAgregarUsuario_Click(object sender, EventArgs e)
         {
             string usuario = txtNombreUsuario.Text.Trim();
             string contraseña = txtContraseñaUsuario.Text.Trim();
-
-            // Verifica si se seleccionó un tipo de usuario
+            string confirmarContraseña = txtConfirmarContraseña.Text.Trim();
             string tipoUsuario = "";
+            bool hayErrores = false;
 
+            lblErrorUsuario.Text = "";
+            lblErrorContraseña.Text = "";
+            lblErrorConfirmarContraseña.Text = "";
+            lblErrorTipoUsuario.Text = "";
+
+            // Validación de tipo de usuario
             if (rbnEmpleadoUsuario.Checked)
-                tipoUsuario = "Empleado"; 
-
+            {
+                tipoUsuario = "Empleado";
+            }
             else if (rbnJefeUsuario.Checked)
+            {
                 tipoUsuario = "Jefe";
-
+            }
             else
             {
-                MessageBox.Show("Seleccione un tipo de usuario.");
-                return;
+                lblErrorTipoUsuario.Text = "Seleccione un tipo de usuario.";
+                lblErrorTipoUsuario.ForeColor = Color.Red;
+                hayErrores = true;
             }
 
-            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contraseña))
+            // Validación de nombre de usuario
+            if (string.IsNullOrWhiteSpace(usuario))
             {
-                MessageBox.Show("Por favor, ingresa un usuario y una contraseña.");
+                lblErrorUsuario.Text = "Por favor, ingrese un nombre de usuario.";
+                lblErrorUsuario.ForeColor = Color.Red;
+                hayErrores = true;
+            }
+            else if (usuario.Length < 3) // Ejemplo de validación de longitud mínima
+            {
+                lblErrorUsuario.Text = "El nombre de usuario debe tener al menos 3 caracteres.";
+                lblErrorUsuario.ForeColor = Color.Red;
+                hayErrores = true;
+            }
+
+            // Validación de contraseña
+            if (string.IsNullOrWhiteSpace(contraseña))
+            {
+                lblErrorContraseña.Text = "Por favor, ingrese una contraseña.";
+                lblErrorContraseña.ForeColor = Color.Red;
+                hayErrores = true;
+            }
+            else if (contraseña.Length < 6) // Ejemplo de validación de longitud mínima
+            {
+                lblErrorContraseña.Text = "La contraseña debe tener al menos 6 caracteres.";
+                lblErrorContraseña.ForeColor = Color.Red;
+                hayErrores = true;
+            }
+
+            // Validación de confirmar contraseña
+            if (string.IsNullOrWhiteSpace(confirmarContraseña))
+            {
+                lblErrorConfirmarContraseña.Text = "Por favor, confirme la contraseña.";
+                lblErrorConfirmarContraseña.ForeColor = Color.Red;
+                hayErrores = true;
+            }
+            else if (contraseña != confirmarContraseña)
+            {
+                lblErrorConfirmarContraseña.Text = "Las contraseñas no coinciden.";
+                lblErrorConfirmarContraseña.ForeColor = Color.Red;
+
+                hayErrores = true;
+            }
+
+            if (hayErrores)
+            {
                 return;
             }
 
@@ -50,7 +93,7 @@ namespace VETERINARIA
                 using (SqlConnection conn = new SqlConnection("Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=VETERINARIA;Integrated Security=True;"))
                 {
                     conn.Open();
-                    string query = "INSERT INTO USUARIOS (Usuario, Contraseña, TipoUsuario) VALUES (@Usuario, HASHBYTES('SHA2_256', @Contraseña), @TipoUsuario)";
+                    string query = "INSERT INTO USUARIOS (Usuario, Contraseña, TipoUsuario) VALUES (@Usuario, @Contraseña, @TipoUsuario)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Usuario", usuario);
@@ -61,6 +104,11 @@ namespace VETERINARIA
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("Usuario registrado exitosamente.");
+                            txtNombreUsuario.Clear();
+                            txtContraseñaUsuario.Clear();
+                            txtConfirmarContraseña.Clear();
+                            rbnEmpleadoUsuario.Checked = false;
+                            rbnJefeUsuario.Checked = false;
                         }
                         else
                         {
@@ -69,9 +117,22 @@ namespace VETERINARIA
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2601 || ex.Number == 2627) 
+                {
+                    MessageBox.Show("El nombre de usuario ya existe. Por favor, elija otro.");
+                    lblErrorUsuario.Text = "El nombre de usuario ya existe.";
+                    lblErrorUsuario.ForeColor = System.Drawing.Color.Red;
+                }
+                else
+                {
+                    MessageBox.Show("Error de base de datos: " + ex.Message);
+                }
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error general: " + ex.Message);
             }
         }
 
@@ -80,6 +141,11 @@ namespace VETERINARIA
             MenuVentana principal = new MenuVentana();
             principal.Show();
             this.Hide();
+        }
+
+        private void Usuarios_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

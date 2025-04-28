@@ -10,7 +10,7 @@ namespace VETERINARIA.DAL
     class ConexionBD
     {
         private static string connectionString =
-            "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True; " +
+            "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True;" +
             "Encrypt =True;TrustServerCertificate=True;";
 
         public static SqlConnection GetConnection()

@@ -10,7 +10,7 @@ namespace VETERINARIA.Datos
 {
     class MascotasDAO
     {
-        private string connectionString = "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True; " +
+        private string connectionString = "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True;" +
             "Encrypt =True;TrustServerCertificate=True;";
 
         public void RegistrarMascota(Mascotass mascota)

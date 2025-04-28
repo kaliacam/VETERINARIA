@@ -10,7 +10,7 @@ namespace VETERINARIA.Datos
 {
     class ProductoServicio
     {
-        private string connectionString = "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True; " +
+        private string connectionString = "Server=DESKTOP-GLHDV2D\\JESUSNORIEGA;Database=Veterinaria;Integrated Security=True;" +
             "Encrypt =True;TrustServerCertificate=True;";
 
         public void RegistrarProductoServicio(ProductoServicios productoServicio)

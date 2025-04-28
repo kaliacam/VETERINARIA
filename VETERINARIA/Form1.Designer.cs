@@ -33,6 +33,7 @@
             BtnSalirPrograma = new Button();
             BtnIniciarSesion = new Button();
             groupBox2 = new GroupBox();
+            LblErrorUsuario = new Label();
             LblErrorContraseña = new Label();
             CmbTipodeUsuario = new ComboBox();
             label3 = new Label();
@@ -42,7 +43,6 @@
             TxtContraseña = new TextBox();
             groupBox3 = new GroupBox();
             label4 = new Label();
-            LblErrorUsuario = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -113,6 +113,16 @@
             groupBox2.Size = new Size(382, 185);
             groupBox2.TabIndex = 9;
             groupBox2.TabStop = false;
+            groupBox2.Enter += groupBox2_Enter;
+            // 
+            // LblErrorUsuario
+            // 
+            LblErrorUsuario.AutoSize = true;
+            LblErrorUsuario.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LblErrorUsuario.Location = new Point(126, 18);
+            LblErrorUsuario.Name = "LblErrorUsuario";
+            LblErrorUsuario.Size = new Size(0, 15);
+            LblErrorUsuario.TabIndex = 16;
             // 
             // LblErrorContraseña
             // 
@@ -200,15 +210,6 @@
             label4.Size = new Size(235, 146);
             label4.TabIndex = 9;
             label4.Text = "Iniciar \r\nSesion";
-            // 
-            // LblErrorUsuario
-            // 
-            LblErrorUsuario.AutoSize = true;
-            LblErrorUsuario.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LblErrorUsuario.Location = new Point(129, 17);
-            LblErrorUsuario.Name = "LblErrorUsuario";
-            LblErrorUsuario.Size = new Size(0, 15);
-            LblErrorUsuario.TabIndex = 16;
             // 
             // Form1
             // 

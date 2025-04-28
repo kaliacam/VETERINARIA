@@ -19,9 +19,14 @@ namespace VETERINARIA
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
-            MenuVentana principal = new MenuVentana ();
+            MenuVentana principal = new MenuVentana();
             principal.Show();
             this.Hide();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
